@@ -10,9 +10,14 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     const user: User = session?.user;
+
+    // if (!user || !session) {
+    //   return Response.json({ success: false, message: "Not authenticated" }, { status: 400 });
+    // }
+
     const { receiver, content } = await request.json();
 
-    const sender = user._id;
+    const sender = "664f073d1357baa306cec652";
 
     let conversation = await ConversationModel.findOne({
       participants: { $all: [sender, receiver] },

@@ -5,7 +5,7 @@ export interface Conversation extends Document {
   messages: Schema.Types.ObjectId[];
 }
 
-const conversatioSchema: Schema<Conversation> = new Schema(
+const conversationSchema: Schema<Conversation> = new Schema(
   {
     participants: [
       {
@@ -26,5 +26,5 @@ const conversatioSchema: Schema<Conversation> = new Schema(
 
 const ConversationModel =
   (mongoose.models.Conversation as mongoose.Model<Conversation>) ||
-  mongoose.model<Conversation>("Conversation", conversatioSchema);
+  mongoose.model<Conversation>("Conversation", conversationSchema);
 export default ConversationModel;
