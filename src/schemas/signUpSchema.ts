@@ -15,8 +15,6 @@ export const signUpSchema = z.object({
   fullName: z
     .string()
     .trim()
-    .max(3, { message: "FullName cannot be more than 20 characters long"} ),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters long" }),
+    .max(20, { message: "FullName cannot be more than 20 characters long" }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters long" }),
 });
