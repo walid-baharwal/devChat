@@ -12,8 +12,9 @@ import {
   VideoIcon,
 } from "lucide-react";
 import Link from "next/link";
-import LogoutButton from "./client/LogoutButton.client";
+
 import Conversations from "./client/Conversations.client";
+import BottomSidebar from "./client/BottomSidebar.client";
 
 export default function Sidebar() {
   return (
@@ -42,10 +43,7 @@ export default function Sidebar() {
           </nav>
         </div>
         <div className="mt-auto border-t px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="text-sm font-medium">John Doe</div>
-            <LogoutButton />
-          </div>
+         <BottomSidebar/>
         </div>
       </div>
     </div>

@@ -8,7 +8,7 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { useToast } from "../ui/use-toast";
 
 const Conversations = () => {
-  const {toast} = useToast();
+  const { toast } = useToast();
   const [conversations, setConversations] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -77,26 +77,28 @@ const Conversations = () => {
     </>
   ) : (
     <>
-      {conversations.length > 0
-        ? conversations.map((conversation) => (
-            <Link
-              key={conversation._id}
-              className="flex items-center gap-2 rounded-lg p-2 transition-colors"
-              href="#"
-            >
-              <Avatar className="border w-10 h-10">
-                <AvatarImage alt="User Avatar" src="/placeholder-user.jpg" />
-                <AvatarFallback>{getInitials(conversation.user?.fullName)}</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-0.5">
-                <p className="text-sm font-medium leading-none">{conversation.user?.fullName}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-1">
-                  {conversation.lastMessage?.content}
-                </p>
-              </div>
-            </Link>
-          ))
-        : (<span>No messages yet</span>)}
+      { conversations.length > 0 ? (
+        conversations.map((conversation) => (
+          <Link
+            key={conversation._id}
+            className="flex items-center gap-2 rounded-lg p-2 transition-colors"
+            href="#"
+          >
+            <Avatar className="border w-10 h-10">
+              <AvatarImage alt="User Avatar" src="/placeholder-user.jpg" />
+              <AvatarFallback>{getInitials(conversation.user?.fullName)}</AvatarFallback>
+            </Avatar>
+            <div className="grid gap-0.5">
+              <p className="text-sm font-medium leading-none">{conversation.user?.fullName}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-1">
+                {conversation.lastMessage?.content}
+              </p>
+            </div>
+          </Link>
+        ))
+      ) : (
+        <span>No messages yet</span>
+      )}
     </>
   );
 };

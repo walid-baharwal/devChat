@@ -12,6 +12,7 @@ import {
   VideoIcon,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import TooltipComponent from "@/components/TooltipComponenet";
 
 export default function Chat() {
   return (
@@ -29,45 +30,24 @@ export default function Chat() {
             </div>
           </div>
           <div className="ml-auto flex items-center gap-2">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button  className="rounded-lg" size="icon" variant="ghost">
-                    <PhoneIcon className="h-4 w-4" />
-                    <span className="sr-only">Call</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Feature Coming Soon</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button disabled className="rounded-lg" size="icon" variant="ghost">
-                    <VideoIcon className="h-4 w-4" />
-                    <span className="sr-only">Video call</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Feature Coming Soon</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button  className="rounded-lg " size="icon" variant="ghost">
-                    <FlipVerticalIcon className="h-4 w-4" />
-                    <span className="sr-only">More options</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Feature Coming Soon</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <TooltipComponent
+              icon={PhoneIcon}
+              message="Feature Coming Soon"
+              size="icon"
+              variant="ghost"
+            />
+            <TooltipComponent
+              icon={VideoIcon}
+              message="Feature Coming Soon"
+              size="icon"
+              variant="ghost"
+            />
+            <TooltipComponent
+              icon={FlipVerticalIcon}
+              message="Feature Coming Soon"
+              size="icon"
+              variant="ghost"
+            />
           </div>
         </div>
 
