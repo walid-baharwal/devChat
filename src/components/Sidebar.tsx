@@ -1,16 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  BellIcon,
-  FlipVerticalIcon,
-  LogOutIcon,
-  MessageCircleIcon,
-  PhoneIcon,
-  SearchIcon,
-  SendIcon,
-  VideoIcon,
-} from "lucide-react";
+import { BellIcon, MessageCircleIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
 
 import Conversations from "./client/Conversations.client";
@@ -18,7 +8,7 @@ import BottomSidebar from "./client/BottomSidebar.client";
 
 export default function Sidebar() {
   return (
-    <div className="hidden border-r lg:block dark:bg-black/40">
+    <div className="hidden border-r lg:block dark:bg-black/70">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-[60px] items-center border-b px-6">
           <Link className="flex items-center gap-2 font-semibold" href="#">
@@ -43,7 +33,7 @@ export default function Sidebar() {
           </nav>
         </div>
         <div className="mt-auto border-t px-4 py-4">
-         <BottomSidebar/>
+          <BottomSidebar />
         </div>
       </div>
     </div>

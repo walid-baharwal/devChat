@@ -3,7 +3,7 @@ import { getToken } from "next-auth/jwt";
 export { default } from "next-auth/middleware";
 
 export const config = {
-  matcher: ["/:path*", "/sign-in", "/sign-up"],
+  matcher: ["/", "/chat/:path*", "/sign-in", "/sign-up"],
 };
 
 export async function middleware(request: NextRequest) {
@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/", request.url));
     }
 
-    if (!token && url.pathname === "/") {
+    if (!token && (url.pathname === "/" || url.pathname.startsWith("/chat"))) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 

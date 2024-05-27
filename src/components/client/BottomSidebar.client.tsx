@@ -9,7 +9,6 @@ import TooltipComponent from "../TooltipComponenet";
 const BottomSidebar = () => {
   const { data: session } = useSession();
   const user: User = session?.user;
-  console.log(user);
   return (
     <>
       <div className="flex items-center justify-between">
