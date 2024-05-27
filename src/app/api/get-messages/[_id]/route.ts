@@ -28,7 +28,7 @@ export async function GET(request: NextRequest, { params }: { params: { _id: str
   } catch (error: any) {
     return Response.json(
       {
-        succes: false,
+        success: false,
         message: "Error fetching messages" + error.message,
       },
       { status: 500 }

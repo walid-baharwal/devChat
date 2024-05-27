@@ -27,7 +27,7 @@ export async function GET(request: NextRequest, { params }: { params: { username
     if (existingUser) {
       return Response.json(
         {
-          succes: false,
+          success: false,
           message: "Username already exists",
         },
         { status: 400 }
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest, { params }: { params: { username
 
     return Response.json(
       {
-        succes: true,
+        success: true,
         message: "Username is unique",
       },
       { status: 200 }
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest, { params }: { params: { username
   } catch (error: any) {
     return Response.json(
       {
-        succes: false,
+        success: false,
         message: "Error checking username" + error.message,
       },
       { status: 500 }

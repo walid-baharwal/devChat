@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
     }
     return Response.json(
       {
-        succes: true,
+        success: true,
         conversations,
       },
       { status: 200 }
@@ -101,7 +101,7 @@ export async function GET(request: NextRequest) {
   } catch (error: any) {
     return Response.json(
       {
-        succes: false,
+        success: false,
         message: "Error fetching messages " + error.message,
       },
       { status: 500 }
