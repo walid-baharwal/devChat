@@ -11,13 +11,13 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
     const user: User = session?.user;
 
-    // if (!user || !session) {
-    //   return Response.json({ success: false, message: "Not authenticated" }, { status: 400 });
-    // }
+    if (!user || !session) {
+      return Response.json({ success: false, message: "Not authenticated" }, { status: 400 });
+    }
 
     const { receiver, content } = await request.json();
 
-    const sender = "664f073d1357baa306cec652";
+    const sender = user._id;
 
     let conversation = await ConversationModel.findOne({
       participants: { $all: [sender, receiver] },
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     return Response.json(
       {
         success: true,
-        message: "message saved successfully",
+        singleMessage: newMessage,
       },
       { status: 200 }
     );

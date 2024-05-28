@@ -14,6 +14,11 @@ import { useSession } from "next-auth/react";
 import { User as UserModel } from "@/models/User.model";
 import { User } from "next-auth";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { messageSchema } from "@/schemas/messageSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 export default function Chat() {
   const [receiverData, setReceiverData] = useState<UserModel | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -44,9 +49,9 @@ export default function Chat() {
       setMessageLoading(false);
     }
   };
+
   const getReceiverData = async () => {
     setReceiverDataLoading(true);
-
     try {
       const response = await axios.get<ApiResponse>(`/api/get-user/${params._id}`);
       if (response.data.success) {
@@ -64,9 +69,46 @@ export default function Chat() {
     }
   };
 
+  const form = useForm<z.infer<typeof messageSchema>>({
+    resolver: zodResolver(messageSchema),
+    defaultValues: {
+      content: "",
+    },
+  });
+
+  const {
+    watch,
+    formState: { errors },
+  } = form;
+
+  const watchContent = watch("content");
+
+  const submit = async (data: z.infer<typeof messageSchema>) => {
+    try {
+      const response = await axios.post<ApiResponse>(`/api/send-message`, {
+        content: data.content,
+        receiver: receiverData?._id,
+      });
+      form.reset({ content: "" });
+      if (response.data.success && response.data.singleMessage) {
+        setMessages([...messages, response.data.singleMessage]);
+      } else {
+        toast({
+          description: response.data.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Message sending Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   useEffect(() => {
     let isCancelled = false;
-
     const fetchData = async () => {
       try {
         await Promise.all([getMessages(), getReceiverData()]);
@@ -87,6 +129,7 @@ export default function Chat() {
       isCancelled = true;
     };
   }, []);
+  
   function getInitials(fullName: string) {
     const words = fullName.split(" ");
     const initials = `${words[0][0]}${words[1][0]}`;
@@ -149,6 +192,7 @@ export default function Chat() {
         </div>
 
         {/* chats */}
+
         <div className="flex-1 overflow-auto p-4">
           <div className="grid gap-3">
             {!messageLoading ? (
@@ -187,33 +231,35 @@ export default function Chat() {
                 <Skeleton className="h-10 w-[300px] rounded-lg  bg-muted" />
               </>
             )}
-            {/* <div className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm bg-muted">
-              Hi, how can I help you today?
-            </div>
-            <div className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-primary text-primary-foreground">
-              Hey, Im having trouble with my account.
-            </div>
-            <div className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm bg-muted">
-              What seems to be the problem?
-            </div>
-            <div className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-primary text-primary-foreground">
-              I cant log in.
-            </div> */}
           </div>
         </div>
+
+        {/* Send Message */}
         <div className="border-t">
-          <form className="flex w-full items-center space-x-2 p-3 py-4">
-            <Input
-              autoComplete="off"
-              className="flex-1"
-              id="message"
-              placeholder="Type your message..."
-            />
-            <Button size="icon" type="submit">
-              <span className="sr-only">Send</span>
-              <SendIcon className="h-4 w-4" />
-            </Button>
-          </form>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(submit)}
+              className="flex w-full items-center space-x-2 p-3 py-4"
+            >
+              <FormField
+                control={form.control}
+                name="content"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormControl>
+                      <Input {...field} type="text" className="flex-1" placeholder="Message..." />
+                    </FormControl>
+                    <FormMessage className="text-red-600 absolute" />
+                  </FormItem>
+                )}
+              />
+
+              <Button size="icon" type="submit" disabled={!watchContent}>
+                <span className="sr-only">Send</span>
+                <SendIcon className="h-4 w-4" />
+              </Button>
+            </form>
+          </Form>
         </div>
       </div>
     </>
