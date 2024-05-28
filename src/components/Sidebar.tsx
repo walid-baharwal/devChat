@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { BellIcon, MessageCircleIcon, SearchIcon } from "lucide-react";
+import { BellIcon, MessageCircleIcon, SearchIcon, SeparatorVertical } from "lucide-react";
 import Link from "next/link";
 
 import Conversations from "./client/Conversations.client";
 import BottomSidebar from "./client/BottomSidebar.client";
+import SearchUsers from "./client/SearchUsers.client";
+import { Separator } from "./ui/separator";
 
 export default function Sidebar() {
   return (
@@ -21,13 +23,9 @@ export default function Sidebar() {
           </Button>
         </div>
         <div className="flex-1 overflow-auto py-2">
-          <form className="px-4">
-            <div className="relative">
-              <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4" />
-              <Input className="w-full  pl-8 " placeholder="Search chats..." type="search" />
-            </div>
-          </form>
-          <nav className="grid gap-1 px-2 pt-4 ">
+          <SearchUsers />
+          <Separator />
+          <nav className="grid gap-1 px-2 pt-4  duration-500">
             {/* All conversations */}
             <Conversations />
           </nav>

@@ -35,45 +35,27 @@ const Conversations = () => {
     getConversations();
   }, []);
 
-  function getInitials(fullName: string) {
+  function getInitials(fullName: string): string {
     const words = fullName.split(" ");
-
-    const initials = `${words[0][0]}${words[1][0]}`;
-
-    return initials.toUpperCase();
+    let initials = "";
+    for (const word of words) {
+      if (word.length > 0) {
+        initials += word[0].toUpperCase();
+      }
+    }
+    return initials;
   }
 
   return loading ? (
-    <>
-      <div className="flex items-center gap-2 rounded-lg p-2 transition-colors">
+    [...Array(5)].map((_, idx) => (
+      <div key={idx} className="flex items-center gap-2 rounded-lg p-2 transition-colors">
         <Skeleton className="h-12 w-12 rounded-full bg-muted" />
         <div className="space-y-2">
           <Skeleton className="h-4 w-[100px] bg-muted" />
           <Skeleton className="h-4 w-[150px] bg-muted" />
         </div>
       </div>
-      <div className="flex items-center gap-2 rounded-lg p-2 transition-colors">
-        <Skeleton className="h-12 w-12 rounded-full bg-muted" />
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-[100px] bg-muted" />
-          <Skeleton className="h-4 w-[150px] bg-muted" />
-        </div>
-      </div>
-      <div className="flex items-center gap-2 rounded-lg p-2 transition-colors">
-        <Skeleton className="h-12 w-12 rounded-full bg-muted" />
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-[100px] bg-muted" />
-          <Skeleton className="h-4 w-[150px] bg-muted" />
-        </div>
-      </div>
-      <div className="flex items-center gap-2 rounded-lg p-2 transition-colors">
-        <Skeleton className="h-12 w-12 rounded-full bg-muted" />
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-[100px] bg-muted" />
-          <Skeleton className="h-4 w-[150px] bg-muted" />
-        </div>
-      </div>
-    </>
+    ))
   ) : (
     <>
       {conversations.length > 0 ? (

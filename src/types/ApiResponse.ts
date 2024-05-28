@@ -20,4 +20,5 @@ export interface ApiResponse {
   conversations?: Array<Conversation>;
   userData?: User;
   singleMessage?: Message;
+  users?: Array<User>;
 }

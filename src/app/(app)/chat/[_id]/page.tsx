@@ -130,10 +130,15 @@ export default function Chat() {
     };
   }, []);
   
-  function getInitials(fullName: string) {
+  function getInitials(fullName: string): string {
     const words = fullName.split(" ");
-    const initials = `${words[0][0]}${words[1][0]}`;
-    return initials.toUpperCase();
+    let initials = "";
+    for (const word of words) {
+      if (word.length > 0) {
+        initials += word[0].toUpperCase();
+      }
+    }
+    return initials;
   }
 
   return (
@@ -194,43 +199,39 @@ export default function Chat() {
         {/* chats */}
 
         <div className="flex-1 overflow-auto p-4">
-          <div className="grid gap-3">
-            {!messageLoading ? (
-              session && messages.length > 0 ? (
-                messages.map((message) => {
-                  if (message.sender.toString() === user._id) {
-                    return (
-                      <div
-                        key={message._id}
-                        className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-primary text-primary-foreground"
-                      >
-                        {message?.content}
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div
-                        key={message._id}
-                        className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm bg-muted"
-                      >
-                        {message?.content}
-                      </div>
-                    );
-                  }
-                })
-              ) : (
-                ""
-              )
-            ) : (
-              <>
-                <Skeleton className="h-6 w-[150px] rounded-lg  bg-muted" />
-                <Skeleton className="h-10 w-[300px] rounded-lg  bg-muted" />
-                <Skeleton className="h-6 w-[150px] rounded-lg ml-auto bg-muted" />
-                <Skeleton className="h-10 w-[300px] rounded-lg ml-auto  bg-muted" />
-                <Skeleton className="h-6 w-[150px] rounded-lg  bg-muted" />
-                <Skeleton className="h-10 w-[300px] rounded-lg  bg-muted" />
-              </>
-            )}
+          <div className="grid gap-2">
+            {!messageLoading
+              ? session && messages.length > 0
+                ? messages.map((message) => {
+                    if (message.sender.toString() === user._id) {
+                      return (
+                        <div
+                          key={message._id}
+                          className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-primary text-primary-foreground"
+                        >
+                          {message?.content}
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div
+                          key={message._id}
+                          className="flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm bg-muted"
+                        >
+                          {message?.content}
+                        </div>
+                      );
+                    }
+                  })
+                : ""
+              : [...Array(3)].map((_, idx) => (
+                  <div key={idx}>
+                    <Skeleton className="h-6 w-[150px] rounded-lg  bg-muted mb-1" />
+                    <Skeleton className="h-10 w-[300px] rounded-lg  bg-muted" />
+                    <Skeleton className="h-6 w-[150px] rounded-lg ml-auto bg-muted mb-1" />
+                    <Skeleton className="h-10 w-[300px] rounded-lg ml-auto  bg-muted" />
+                  </div>
+                ))}
           </div>
         </div>
 
