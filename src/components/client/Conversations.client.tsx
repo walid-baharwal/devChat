@@ -6,8 +6,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Skeleton } from "../ui/skeleton";
 import { ApiResponse, Conversation } from "@/types/ApiResponse";
 import { useToast } from "../ui/use-toast";
+import { usePathname } from "next/navigation";
+
 
 const Conversations = () => {
+  const pathname = usePathname();
   const { toast } = useToast();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(false);
@@ -46,6 +49,8 @@ const Conversations = () => {
     return initials;
   }
 
+  const isActive = (href:string) => pathname === href
+
   return loading ? (
     [...Array(5)].map((_, idx) => (
       <div key={idx} className="flex items-center gap-2 rounded-lg p-2 transition-colors">
@@ -62,7 +67,7 @@ const Conversations = () => {
         conversations.map((conversation) => (
           <Link
             key={conversation._id}
-            className="flex items-center gap-2 rounded-lg p-2 transition-colors"
+            className={`flex items-center gap-2 rounded-lg p-2  transition-colors ${isActive(`/chat/${conversation.user._id}`) ? "bg-primary" : "hover:bg-muted"} `}
             href={`/chat/${conversation.user._id}`}
           >
             <Avatar className="border w-10 h-10">
